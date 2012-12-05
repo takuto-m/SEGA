@@ -28,7 +28,7 @@ namespace GameLib{
 		//cout << frame_rate << endl;
 		if (Framework::instance().isKeyOn('q')){
 			delete state;
-			exit(1);
+			Framework::instance().requestEnd();
 		}else{
 			state->update();
 		}
