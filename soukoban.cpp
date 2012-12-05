@@ -25,7 +25,7 @@ SOUKOBAN_CLASS::SOUKOBAN_CLASS(char* filename){
 #.      # \
 ##.###  # ";*/
 	char *input_data = read_map(filename);
-	cout << input_data << endl;
+	GameLib::cout << input_data << endl;
 	printf("%s\n",input_data);				
 	//initialize
 	clearFlag = false;
@@ -79,7 +79,7 @@ SOUKOBAN_CLASS::SOUKOBAN_CLASS(char* filename){
 					break;
 				case '\n': j--; break;
                 default :
-					cout << input_data[k] << endl;
+					GameLib::cout << input_data[k] << endl;
 					break;
             }	
 			
@@ -87,7 +87,7 @@ SOUKOBAN_CLASS::SOUKOBAN_CLASS(char* filename){
         }
     }
     if (x < 0|| x >= W_SIZE || y < 0 || y >= H_SIZE){
-        cout << "Error:Bad location of player!" << endl;
+        GameLib::cout << "Error:Bad location of player!" << endl;
         finish();
         exit(1);
     }
@@ -111,7 +111,7 @@ char *SOUKOBAN_CLASS::read_map(char *filename){
 	memset(buf, 0, size);//ƒƒ‚ƒŠ‚ð0‚Å‰Šú‰»
 	ifs.read(buf, size);//“Ç‚Ýž‚Ý
 	ifs.close();
-	cout << size << endl;
+	GameLib::cout << size << endl;
 	return buf;
 }
 
@@ -203,7 +203,7 @@ void SOUKOBAN_CLASS::updateGame(){
             vec_y = -1;
             break;
         case 'q':
-            cout <<"Game over!!"<<endl; 
+            GameLib::cout <<"Game over!!"<<endl; 
             finish();
             exit(0);
         default:
@@ -212,7 +212,7 @@ void SOUKOBAN_CLASS::updateGame(){
     next_x += vec_x;
     next_y += vec_y;
     if (next_x < 0 || next_x >= W_SIZE || next_y < 0 || next_y >= H_SIZE){
-        cout << "Can't move!" << endl;
+        GameLib::cout << "Can't move!" << endl;
         return ;
     }
 	
@@ -222,7 +222,7 @@ void SOUKOBAN_CLASS::updateGame(){
             set_player(next_x,next_y);
             break;
         case WALL:
-            cout << "Can't move" << endl;
+            GameLib::cout << "Can't move" << endl;
             break;
         case COMP:
             if (judge(vec_x,vec_y)){
@@ -235,7 +235,7 @@ void SOUKOBAN_CLASS::updateGame(){
             judge(vec_x,vec_y);
             break;
         case PLAY:
-            cout <<"Plaese input key from [a,w,s,z]" << endl;
+            GameLib::cout <<"Plaese input key from [a,w,s,z]" << endl;
             break;
         default:
             break;
@@ -257,7 +257,7 @@ int SOUKOBAN_CLASS::judge(int a,int b){
 		case WALL:
 		case LOAD:
 		case COMP:
-			cout << "Can't move" << endl;
+			GameLib::cout << "Can't move" << endl;
 			return 0;
 			break;
 		case GOAL:
@@ -265,10 +265,10 @@ int SOUKOBAN_CLASS::judge(int a,int b){
 			map[next_load_y*W_SIZE+next_load_x].set_move_xy(-a,-b);
 			set_player(next_x,next_y);
 			if (!ifclear())
-				cout << "Good job" << endl;
+				GameLib::cout << "Good job" << endl;
 			break;
 		case PLAY:
-			cout << "Incredible!" << endl;
+			GameLib::cout << "Incredible!" << endl;
 			break;
 		default:
 			break;
@@ -284,7 +284,7 @@ int SOUKOBAN_CLASS::ifclear(){
 				return 0;	
 		}
 	}
-	cout << "Congraturations!" << endl;
+	GameLib::cout << "Congraturations!" << endl;
 	return 1;
 }
 
@@ -294,7 +294,7 @@ unsigned *SOUKOBAN_CLASS::getObject(enum ImageID id){
 	unsigned *obj_memory = image->data();
 	unsigned *maptip = new unsigned[BLOCK_SIZE * BLOCK_SIZE];
 	int prelude = 0;
-	//cout << image.width() << endl;
+	//GameLib::cout << image.width() << endl;
 	switch(id){
 		case IMAGE_ID_PLAY: prelude = 0 * BLOCK_SIZE; break; 
 		case IMAGE_ID_WALL: prelude = 1 * BLOCK_SIZE; break;
@@ -402,7 +402,7 @@ void SOUKOBAN_CLASS::draw(int a){
 
 void SOUKOBAN_CLASS::set_player(int a,int b){
     if (a < 0 || a >= W_SIZE || b < 0|| b >= H_SIZE ){
-        cout << "Can't move!" << endl;
+        GameLib::cout << "Can't move!" << endl;
         return;
     }else if (map[y*W_SIZE+x].get_id() == PLAY)
 		map[y*W_SIZE+x].set_id(VOID);
